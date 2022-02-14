@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class CCTask1 {
-
+    
     public static void main(String[] args) throws Exception {
 
         List<String> fileLines = readLinesFromFile("src/main/resources/weather.dat");
@@ -21,7 +21,7 @@ public class CCTask1 {
             }
 
             try {
-                dailyTemperatures.add(getDailyTemperature(line));
+                dailyTemperatures.add(transform(line));
             } catch (Exception e) {
                 //
             }
@@ -55,7 +55,7 @@ public class CCTask1 {
         return true;
     }
 
-    private static DailyTemperature getDailyTemperature(String line) throws Exception {
+    private static DailyTemperature transform(String line) throws Exception {
 
         DailyTemperature dailyTemperature = null;
         String[] lineItem = line.split(" ");
