@@ -1,15 +1,14 @@
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class CCTask1 {
 
-    public static List<String> readFileInList(String fileName)
+    public static List<String> readLinesFromFile(String fileName)
     {
 
         List<String> lines = Collections.emptyList();
@@ -28,59 +27,77 @@ public class CCTask1 {
         return lines;
     }
 
-    private static boolean validateSor(String sor, int lineNumber) {
-        if (lineNumber == 1) {
-            return false;
-        }
-
-        if (sor.isEmpty()) {
+    private static boolean validate(String line, int lineNumber) {
+        if (lineNumber == 1
+                || line.isEmpty()
+                || line.startsWith("mo")) {
             return false;
         }
 
         return true;
     }
 
+    private static DailyTemperature getDailyTemperature(String line) throws Exception {
+
+        DailyTemperature dailyTemperature = null;
+        String[] lineItem = line.split(" ");
+        Integer lineNumber = Integer.valueOf(lineItem[0]);
+
+        Integer max = Integer.valueOf(lineItem[1]);
+        Integer min = Integer.valueOf(lineItem[2]);
+        dailyTemperature = new DailyTemperature(min, max, lineNumber);
+
+        System.out.println(dailyTemperature.toString());
+
+        return dailyTemperature;
+    }
+
     public static void main(String[] args) throws Exception {
 
-        List l = readFileInList("src/main/resources/weather.dat");
+        List<String> fileLines = readLinesFromFile("src/main/resources/weather.dat");
 
-        Iterator<String> itr = l.iterator();
-        String sor = null;
-        Float minimum = Float.MAX_VALUE;
-        String minSor = null;
         Float min = null;
         Float max = null;
 
         int lineNumber = 0;
-        while (itr.hasNext()) {
+        List<DailyTemperature> dailyTemperatures = new ArrayList<>();
+        for (String line : fileLines) {
             lineNumber++;
-            sor = itr.next();
-            sor = sor.trim();
-            sor = sor.replaceAll("( )+", " ");
-            //System.out.println(sor);
 
-            if (!validateSor(sor, lineNumber)) {
+            line = cleanLine(line);
+
+            if (!validate(line, lineNumber)) {
                 continue;
             }
 
-            String[] splitString = sor.split(" ");
-            String sorszam = splitString[0];
             try {
-                max = Float.valueOf(splitString[1]);
-                min = Float.valueOf(splitString[2]);
+                dailyTemperatures.add(getDailyTemperature(line));
             } catch (Exception e) {
-                continue;
+                //
             }
-
-            Float kulonbseg = max - min;
-            if (kulonbseg < minimum) {
-                minimum = kulonbseg;
-                minSor = sorszam;
-            }
-
         }
 
-        System.out.println("Minimum érték:" + minimum);
-        System.out.println("Min érték sora:" + minSor);
+
+        DailyTemperature minTempDiffDay = getMinTempDiffDay(dailyTemperatures);
+
+        System.out.println("Minimum érték:" + minTempDiffDay.getTemperatureDifference());
+        System.out.println("Min érték sora:" + minTempDiffDay.getLineNumber());
+    }
+
+    private static DailyTemperature getMinTempDiffDay(List<DailyTemperature> dailyTemperatures) {
+        DailyTemperature minDiffDay = null;
+        for (DailyTemperature dailyTemperature : dailyTemperatures) {
+            if (minDiffDay == null || dailyTemperature.getTemperatureDifference() < minDiffDay.getTemperatureDifference()) {
+                minDiffDay = dailyTemperature;
+            }
+        }
+        return minDiffDay;
+    }
+
+    private static String cleanLine(String line) {
+        line = line.trim();
+        line = line.replaceAll("( )+", " ");
+        //System.out.println(sor);
+        return line;
     }
 }
