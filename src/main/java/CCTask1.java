@@ -56,11 +56,8 @@ public class CCTask1 {
 
         List<String> fileLines = readLinesFromFile("src/main/resources/weather.dat");
 
-        int lineNumber = 0;
         List<DailyTemperature> dailyTemperatures = new ArrayList<>();
         for (String line : fileLines) {
-            lineNumber++;
-
             line = cleanLine(line);
 
             if (!validate(line)) {
