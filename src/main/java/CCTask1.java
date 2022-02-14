@@ -8,19 +8,37 @@ import java.util.List;
 
 public class CCTask1 {
 
-    public static List<String> readLinesFromFile(String fileName)
-    {
+    public static void main(String[] args) throws Exception {
 
-        List<String> lines = Collections.emptyList();
-        try
-        {
-            lines =
-                    Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+        List<String> fileLines = readLinesFromFile("src/main/resources/weather.dat");
+
+        List<DailyTemperature> dailyTemperatures = new ArrayList<>();
+        for (String line : fileLines) {
+            line = cleanLine(line);
+
+            if (!validate(line)) {
+                continue;
+            }
+
+            try {
+                dailyTemperatures.add(getDailyTemperature(line));
+            } catch (Exception e) {
+                //
+            }
         }
 
-        catch (IOException e)
-        {
+        DailyTemperature minTempDiffDay = getDayWithMinimalTemperatureDifference(dailyTemperatures);
 
+        System.out.println("Minimum érték:" + minTempDiffDay.getTemperatureDifference());
+        System.out.println("Min érték sora:" + minTempDiffDay.getLineNumber());
+    }
+
+    public static List<String> readLinesFromFile(String fileName)
+    {
+        List<String> lines = Collections.emptyList();
+        try {
+            lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+        } catch (IOException e) {
             // do something
             e.printStackTrace();
         }
@@ -52,32 +70,7 @@ public class CCTask1 {
         return dailyTemperature;
     }
 
-    public static void main(String[] args) throws Exception {
-
-        List<String> fileLines = readLinesFromFile("src/main/resources/weather.dat");
-
-        List<DailyTemperature> dailyTemperatures = new ArrayList<>();
-        for (String line : fileLines) {
-            line = cleanLine(line);
-
-            if (!validate(line)) {
-                continue;
-            }
-
-            try {
-                dailyTemperatures.add(getDailyTemperature(line));
-            } catch (Exception e) {
-                //
-            }
-        }
-
-        DailyTemperature minTempDiffDay = getMinTempDiffDay(dailyTemperatures);
-
-        System.out.println("Minimum érték:" + minTempDiffDay.getTemperatureDifference());
-        System.out.println("Min érték sora:" + minTempDiffDay.getLineNumber());
-    }
-
-    private static DailyTemperature getMinTempDiffDay(List<DailyTemperature> dailyTemperatures) {
+    private static DailyTemperature getDayWithMinimalTemperatureDifference(List<DailyTemperature> dailyTemperatures) {
         DailyTemperature minDiffDay = null;
         for (DailyTemperature dailyTemperature : dailyTemperatures) {
             if (minDiffDay == null || dailyTemperature.getTemperatureDifference() < minDiffDay.getTemperatureDifference()) {
