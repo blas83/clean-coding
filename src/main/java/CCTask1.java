@@ -28,6 +28,18 @@ public class CCTask1 {
         return lines;
     }
 
+    private static boolean validateSor(String sor, int lineNumber) {
+        if (lineNumber == 1) {
+            return false;
+        }
+
+        if (sor.isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) throws Exception {
 
         List l = readFileInList("src/main/resources/weather.dat");
@@ -39,20 +51,17 @@ public class CCTask1 {
         Float min = null;
         Float max = null;
 
-        int i = 0;
+        int lineNumber = 0;
         while (itr.hasNext()) {
+            lineNumber++;
             sor = itr.next();
-
-            if (i == 0 || i == 1) {
-                i++;
-                continue;
-            }
-            i++;
-
-
             sor = sor.trim();
             sor = sor.replaceAll("( )+", " ");
-            System.out.println(sor);
+            //System.out.println(sor);
+
+            if (!validateSor(sor, lineNumber)) {
+                continue;
+            }
 
             String[] splitString = sor.split(" ");
             String sorszam = splitString[0];
@@ -68,10 +77,10 @@ public class CCTask1 {
                 minimum = kulonbseg;
                 minSor = sorszam;
             }
-            System.out.println("Min:" + minimum);
-            System.out.println("Min Sor:" + minSor);
 
         }
 
+        System.out.println("Minimum érték:" + minimum);
+        System.out.println("Min érték sora:" + minSor);
     }
 }
