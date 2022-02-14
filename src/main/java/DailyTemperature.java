@@ -44,6 +44,7 @@ public class DailyTemperature {
         return "DailyTemperature{" +
                 "min=" + min +
                 ", max=" + max +
+                ", diff=" + getTemperatureDifference() +
                 ", lineNumber=" + lineNumber +
                 '}';
     }

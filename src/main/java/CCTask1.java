@@ -27,8 +27,8 @@ public class CCTask1 {
         return lines;
     }
 
-    private static boolean validate(String line, int lineNumber) {
-        if (lineNumber == 1
+    private static boolean validate(String line) {
+        if (line.startsWith("Dy")
                 || line.isEmpty()
                 || line.startsWith("mo")) {
             return false;
@@ -56,9 +56,6 @@ public class CCTask1 {
 
         List<String> fileLines = readLinesFromFile("src/main/resources/weather.dat");
 
-        Float min = null;
-        Float max = null;
-
         int lineNumber = 0;
         List<DailyTemperature> dailyTemperatures = new ArrayList<>();
         for (String line : fileLines) {
@@ -66,7 +63,7 @@ public class CCTask1 {
 
             line = cleanLine(line);
 
-            if (!validate(line, lineNumber)) {
+            if (!validate(line)) {
                 continue;
             }
 
@@ -76,7 +73,6 @@ public class CCTask1 {
                 //
             }
         }
-
 
         DailyTemperature minTempDiffDay = getMinTempDiffDay(dailyTemperatures);
 
