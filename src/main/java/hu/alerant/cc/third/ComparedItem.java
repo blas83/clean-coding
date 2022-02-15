@@ -36,6 +36,7 @@ public class ComparedItem {
     public Integer getAbsDifference() {
         return Math.abs(this.highValue - this.lowValue);
     }
+
     public String getItemId() {
         return itemId;
     }

@@ -7,8 +7,6 @@ abstract class RowParser {
 
     abstract boolean validate(String line);
 
-    //abstract ComparedItem transform(String line);
-
     abstract Integer getDifference(ComparedItem stat);
 
     abstract Integer getLineIdColumn();
