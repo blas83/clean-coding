@@ -9,7 +9,7 @@ public class FileProcessor {
         this.fileLines = fileLines;
     }
 
-    private static boolean validate(String line) {
+    private boolean validate(String line) {
         if (line.contains("Team")
                 || line.isEmpty()
                 || line.contains("------")) {
