@@ -5,10 +5,18 @@ public class DailyTemperature {
 
     Integer lineNumber;
 
+    String lineId;
+
     public DailyTemperature(Integer min, Integer max, Integer lineNumber) {
         this.min = min;
         this.max = max;
         this.lineNumber = lineNumber;
+    }
+
+    public DailyTemperature(Integer min, Integer max, String lineId) {
+        this.min = min;
+        this.max = max;
+        this.lineId = lineId;
     }
 
     public Integer getMin() {
@@ -39,6 +47,14 @@ public class DailyTemperature {
         return this.max - this.min;
     }
 
+    public String getLineId() {
+        return lineId;
+    }
+
+    public void setLineId(String lineId) {
+        this.lineId = lineId;
+    }
+
     @Override
     public String toString() {
         return "DailyTemperature{" +
@@ -46,6 +62,7 @@ public class DailyTemperature {
                 ", max=" + max +
                 ", diff=" + getTemperatureDifference() +
                 ", lineNumber=" + lineNumber +
+                ", lineId=" + lineId +
                 '}';
     }
 }

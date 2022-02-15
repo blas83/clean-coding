@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class CCTask1 {
-    
+
     public static void main(String[] args) throws Exception {
 
         List<String> fileLines = readLinesFromFile("src/main/resources/weather.dat");
